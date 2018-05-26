@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Administracao {% endblock %}
+
+{% block main %}
+
+    <div class="row">
+        <div class="col">
+
+        </div>
+
+        <div class="col-6">
+
+        <h3>Listagem de Produtos</h3>
+         <ul class="list-group">
+            {% for produto in produtos %}
+            <li class="list-group-item">
+                <a href="{% url 'prod_update' produto.id %}">{{ produto.nome }}</a>
+                <a href="{% url 'prod_delete' produto.id %}" class="trash-item"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <br>
+         <a href="{% url 'prod_novo' %}" class="btn btn-primary"> Cadastrar Novo Produto</a>
+     </div>
+
+     <div class="col">
+            {% if user.is_authenticated %}
+                <p>Ola! {{user.username }}
+                    <a href="{% url 'logout' %}">
+                        <span class="badge badge-dark">Sair</span>
+                    </a>
+                </p>
+
+            {% endif %}
+     </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Desenvolvimento web com Django 2.x</span>
+      </div>
+    </footer>
+{% endblock %}
