@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 
-ALLOWED_HOSTS = ['g-produtos.herokuapp.com']
+ALLOWED_HOSTS = ['g-produtos.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     'home',
     'produtos',
 ]
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+MIDDLEWARE_CLASSES = ['whitenoise.middleware.WhiteNoiseMiddleware',]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -83,9 +87,7 @@ WSGI_APPLICATION = 'gestao_produtos.wsgi.application'
 
 default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 
-DATABASES = {
-    'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
-    }
+DATABASES = {'default': config('DATABASE_URL', default=default_dburl, cast=dburl),}
 
 
 # Password validation
@@ -134,8 +136,11 @@ LOGIN_REDIRECT_URL = 'prod_lista'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIRS = [
-    'statics',
-]
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 STATIC_URL = '/static/'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
