@@ -1,4 +1,7 @@
 .idea
-*.sqlite
+*.sqlite3
 .vEnv
 *pyc
+.DS_Store
+media
+.env
